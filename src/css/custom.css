@@ -1157,3 +1157,341 @@ body:has(.theme-doc-markdown) .pagination-nav__link {
     font-size: 0.88rem;
   }
 }
+
+body:has(.theme-doc-markdown),
+body:has(.contributorDesk) {
+  --desk-ink: #c5d3de;
+  --desk-muted: rgba(197, 211, 222, 0.64);
+  --desk-line: rgba(0, 229, 255, 0.28);
+  --desk-surface: rgba(0, 229, 255, 0.045);
+  --desk-soft: #080c11;
+  --desk-good: #00e5ff;
+  --desk-warn: #ffaa00;
+  --desk-danger: #ff4444;
+  --ifm-background-color: #080c11;
+  --ifm-navbar-background-color: #080c11;
+  --ifm-footer-background-color: #080c11;
+  --ifm-color-primary: #00e5ff;
+  --ifm-color-content: #c5d3de;
+  --ifm-color-content-secondary: rgba(197, 211, 222, 0.64);
+  --ifm-heading-color: #00e5ff;
+  --ifm-link-color: #00e5ff;
+  --ifm-menu-color: #c5d3de;
+  --ifm-menu-color-active: #00e5ff;
+  --ifm-font-family-base: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  background: #080c11;
+  color: #c5d3de;
+  letter-spacing: 0.5px;
+}
+
+body:has(.theme-doc-markdown) .navbar,
+body:has(.contributorDesk) .navbar {
+  border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+  background: rgba(8, 12, 17, 0.95);
+  box-shadow: none;
+}
+
+body:has(.theme-doc-markdown) .navbar__title,
+body:has(.theme-doc-markdown) .navbar__link,
+body:has(.contributorDesk) .navbar__title,
+body:has(.contributorDesk) .navbar__link {
+  color: rgba(197, 211, 222, 0.82);
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  font-size: 0.84rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+body:has(.theme-doc-markdown) .navbar__title::before,
+body:has(.contributorDesk) .navbar__title::before {
+  color: #00e5ff;
+  content: "> ";
+}
+
+body:has(.theme-doc-markdown) .navbar__link:hover,
+body:has(.theme-doc-markdown) .navbar__link--active,
+body:has(.contributorDesk) .navbar__link:hover,
+body:has(.contributorDesk) .navbar__link--active {
+  color: #00e5ff;
+}
+
+body:has(.theme-doc-markdown) .main-wrapper,
+body:has(.contributorDesk) .main-wrapper,
+.contributorDesk {
+  background:
+    radial-gradient(circle at 52% 4%, rgba(0, 229, 255, 0.08), transparent 32rem),
+    linear-gradient(180deg, rgba(255, 68, 68, 0.035), transparent 28rem),
+    #080c11;
+}
+
+body:has(.theme-doc-markdown)::before,
+body:has(.theme-doc-markdown)::after,
+body:has(.contributorDesk)::before,
+body:has(.contributorDesk)::after {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  content: "";
+}
+
+body:has(.theme-doc-markdown)::before,
+body:has(.contributorDesk)::before {
+  opacity: 0.24;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode: soft-light;
+}
+
+body:has(.theme-doc-markdown)::after,
+body:has(.contributorDesk)::after {
+  opacity: 0.08;
+  background-image:
+    radial-gradient(circle at 16% 26%, rgba(0, 229, 255, 0.42) 0 1px, transparent 1px),
+    radial-gradient(circle at 72% 62%, rgba(255, 170, 0, 0.34) 0 1px, transparent 1px);
+  background-size: 19px 29px, 31px 37px;
+  animation: terminal-noise 1.1s steps(2, end) infinite;
+}
+
+.theme-doc-sidebar-container {
+  border-right: 1px solid rgba(0, 229, 255, 0.22);
+  background: rgba(0, 229, 255, 0.035);
+}
+
+.theme-doc-markdown.markdown {
+  border: 1px solid rgba(0, 229, 255, 0.42);
+  background:
+    linear-gradient(180deg, rgba(0, 229, 255, 0.045), rgba(0, 229, 255, 0.025)),
+    rgba(8, 12, 17, 0.78);
+  color: #c5d3de;
+}
+
+.theme-doc-markdown.markdown p,
+.theme-doc-markdown.markdown li {
+  color: #c5d3de;
+}
+
+.theme-doc-markdown.markdown strong {
+  color: #ffaa00;
+}
+
+.theme-doc-markdown.markdown a {
+  color: #00e5ff;
+}
+
+.theme-doc-markdown.markdown hr {
+  border-color: rgba(0, 229, 255, 0.22);
+}
+
+.theme-doc-markdown.markdown code,
+.theme-doc-markdown.markdown pre {
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: rgba(8, 12, 17, 0.84);
+  color: #ffaa00;
+}
+
+body:has(.theme-doc-markdown) .menu,
+body:has(.theme-doc-markdown) .table-of-contents {
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  font-size: 0.82rem;
+}
+
+body:has(.theme-doc-markdown) .menu__link,
+body:has(.theme-doc-markdown) .table-of-contents__link {
+  border-radius: 0;
+  color: rgba(197, 211, 222, 0.68);
+}
+
+body:has(.theme-doc-markdown) .menu__link:hover,
+body:has(.theme-doc-markdown) .menu__link--active,
+body:has(.theme-doc-markdown) .table-of-contents__link:hover,
+body:has(.theme-doc-markdown) .table-of-contents__link--active {
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+
+body:has(.theme-doc-markdown) .breadcrumbs__link,
+body:has(.theme-doc-markdown) .theme-edit-this-page,
+body:has(.theme-doc-markdown) .pagination-nav__label,
+body:has(.theme-doc-markdown) .pagination-nav__sublabel {
+  color: rgba(197, 211, 222, 0.7);
+}
+
+body:has(.theme-doc-markdown) .pagination-nav__link {
+  border-color: rgba(0, 229, 255, 0.22);
+  border-radius: 0;
+  background: rgba(0, 229, 255, 0.035);
+}
+
+body:has(.theme-doc-markdown) .footer,
+body:has(.contributorDesk) .footer {
+  border-top: 1px solid rgba(0, 229, 255, 0.22);
+  background: #080c11;
+  color: rgba(197, 211, 222, 0.68);
+}
+
+.contributorDesk {
+  min-height: calc(100svh - var(--ifm-navbar-height));
+  color: #c5d3de;
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+}
+
+.contributorDesk::before {
+  display: block;
+  max-width: 1480px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(255, 170, 0, 0.42);
+  background: rgba(255, 68, 68, 0.08);
+  color: #ffaa00;
+  padding: 0.65rem 28px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  content: "[WRITE BUFFER] UNVERIFIED FRAGMENTS MUST PASS MODERATION BEFORE ARCHIVAL COMMIT.";
+}
+
+.deskMast {
+  align-items: center;
+  padding-top: 28px;
+}
+
+.deskKicker {
+  color: #00e5ff;
+  letter-spacing: 0.5px;
+}
+
+.deskMast h1 {
+  color: #c5d3de;
+  font-size: clamp(2.4rem, 6vw, 4.7rem);
+  letter-spacing: 0.5px;
+}
+
+.deskLead,
+.sessionText span,
+.selectedDirectory,
+.reviewMeta,
+.findingList p,
+.notice,
+.inlineStatus {
+  color: rgba(197, 211, 222, 0.64);
+}
+
+.sessionPanel,
+.directoryColumn,
+.editorColumn,
+.reviewColumn {
+  border: 1px solid rgba(0, 229, 255, 0.32);
+  border-radius: 0;
+  background: rgba(0, 229, 255, 0.045);
+  box-shadow: inset 0 0 22px rgba(0, 229, 255, 0.035);
+}
+
+.panelHeader {
+  border-bottom: 1px solid rgba(0, 229, 255, 0.18);
+  padding-bottom: 0.65rem;
+}
+
+.sessionText strong,
+.panelHeader h2,
+.reviewHeader h2,
+.findingItem strong {
+  color: #c5d3de;
+}
+
+.segmented,
+.loadRow input,
+.newDirectoryRow input,
+.directoryButton,
+.fileList button,
+.draftEditor,
+.reviewEditor,
+.rulesTextArea {
+  border: 1px solid rgba(0, 229, 255, 0.24);
+  border-radius: 0;
+  background: rgba(8, 12, 17, 0.74);
+  color: #c5d3de;
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+}
+
+.segmented button,
+.directoryButton,
+.fileList button,
+.secondaryButton,
+.ghostButton,
+.iconButton {
+  color: rgba(197, 211, 222, 0.74);
+}
+
+.segmented button:hover,
+.segmented button.active,
+.directoryButton:hover,
+.directoryButton.active,
+.fileList button:hover {
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+
+.primaryButton,
+.secondaryButton,
+.ghostButton,
+.iconButton {
+  border-radius: 0;
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.primaryButton {
+  border-color: #00e5ff;
+  background: rgba(0, 229, 255, 0.12);
+  color: #00e5ff;
+}
+
+.secondaryButton {
+  border-color: rgba(0, 229, 255, 0.32);
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.ghostButton,
+.iconButton {
+  border-color: transparent;
+  background: transparent;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.ghostButton:hover,
+.iconButton:hover {
+  border-color: #00e5ff;
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+
+.riskPill {
+  border-radius: 0;
+}
+
+.riskPill.good {
+  background: rgba(0, 229, 255, 0.1);
+  color: #00e5ff;
+}
+
+.riskPill.warn {
+  background: rgba(255, 170, 0, 0.1);
+  color: #ffaa00;
+}
+
+.riskPill.danger,
+.notice.danger {
+  background: rgba(255, 68, 68, 0.08);
+  color: #ff4444;
+}
+
+.notice.good,
+.findingItem em {
+  color: #00e5ff;
+}

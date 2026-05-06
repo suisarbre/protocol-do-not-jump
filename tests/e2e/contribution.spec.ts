@@ -13,7 +13,7 @@ test('core document keeps terminal viewer styling', async ({page}) => {
   await page.goto('/protocol-do-not-jump/docs/core-lore/astra-nox-leak-tartarus');
   await expect(page.getByRole('heading', {name: /\[LEAKED\] Astra-Nox/})).toBeVisible();
   const articlePanel = page.locator('.theme-doc-markdown');
-  await expect(articlePanel).toHaveCSS('border-top-color', 'rgba(0, 229, 255, 0.4)');
+  await expect(articlePanel).toHaveCSS('border-top-color', 'rgba(0, 229, 255, 0.42)');
 });
 
 test('contribution desk renders core workflow controls', async ({page}) => {
