@@ -4,8 +4,8 @@ import type {Options as PresetOptions} from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Lore Wiki',
   tagline: 'A collaborative canon desk for shared-universe fiction.',
-  url: process.env.SITE_URL ?? 'https://example.github.io',
-  baseUrl: process.env.BASE_URL ?? '/',
+  url: process.env.SITE_URL || 'https://suisarbre.github.io',
+  baseUrl: process.env.BASE_URL || '/protocol-do-not-jump/',
   organizationName: process.env.GITHUB_REPO_OWNER ?? 'suisarbre',
   projectName: process.env.GITHUB_REPO_NAME ?? 'protocol-do-not-jump',
   onBrokenLinks: 'throw',
