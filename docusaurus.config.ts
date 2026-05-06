@@ -1,11 +1,13 @@
 import type {Config} from '@docusaurus/types';
 import type {Options as PresetOptions} from '@docusaurus/preset-classic';
 
+const isVercel = Boolean(process.env.VERCEL);
+
 const config: Config = {
   title: 'Lore Wiki',
   tagline: 'A collaborative canon desk for shared-universe fiction.',
-  url: process.env.SITE_URL || 'https://suisarbre.github.io',
-  baseUrl: process.env.BASE_URL || '/protocol-do-not-jump/',
+  url: process.env.SITE_URL || (isVercel ? 'https://protocol-do-not-jump.vercel.app' : 'https://suisarbre.github.io'),
+  baseUrl: process.env.BASE_URL || (isVercel ? '/' : '/protocol-do-not-jump/'),
   organizationName: process.env.GITHUB_REPO_OWNER ?? 'suisarbre',
   projectName: process.env.GITHUB_REPO_NAME ?? 'protocol-do-not-jump',
   onBrokenLinks: 'throw',
