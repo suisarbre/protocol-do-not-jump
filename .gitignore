@@ -1,0 +1,11 @@
+node_modules/
+.docusaurus/
+build/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
