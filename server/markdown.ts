@@ -6,7 +6,10 @@ export const frontMatterSchema = z.object({
   title: z.string().min(1),
   slug: z.string().min(1),
   documentType: z.string().min(1),
-  canonLevel: z.enum(['core', 'non-core']),
+  canonLevel: z.preprocess(
+    (value) => (typeof value === 'string' ? value.toLowerCase() : value),
+    z.enum(['core', 'non-core']),
+  ),
   authorGithub: z.string().min(1),
   loreTags: z.array(z.string()).default([]),
   created: z.string().min(1),

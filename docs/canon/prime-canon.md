@@ -2,11 +2,12 @@
 title: "[LEAKED] Astra-Nox Top Secret Research Log: Project Tartarus"
 slug: /core-lore/astra-nox-leak-tartarus
 documentType: "Leaked-Log"
-canonLevel: "Core"
+canonLevel: "core"
 authorGithub: "system-admin"
 loreTags: ["Astra-Nox", "FTL", "Cosmic-Horror", "Extinct-Entity", "Tartarus"]
 created: "2026-05-06"
 updated: "2026-05-06"
+sourcePr: seed
 ---
 
 # [LEAKED] Astra-Nox Top Secret Research Log: Project 'Tartarus'
