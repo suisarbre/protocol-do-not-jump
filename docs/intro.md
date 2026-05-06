@@ -1,6 +1,6 @@
 ---
 title: Wiki Guide
-slug: /
+slug: /wiki-guide
 documentType: Guide
 canonLevel: non-core
 authorGithub: system

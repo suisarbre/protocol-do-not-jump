@@ -44,8 +44,9 @@ const config: Config = {
     navbar: {
       title: 'Lore Wiki',
       items: [
-        {to: '/', label: 'Contribute', position: 'left'},
-        {type: 'docSidebar', sidebarId: 'loreSidebar', label: 'Canon', position: 'left'},
+        {to: '/', label: 'Core Lore', position: 'left'},
+        {to: '/contribute', label: 'Contribute', position: 'left'},
+        {type: 'docSidebar', sidebarId: 'loreSidebar', label: 'Archive', position: 'left'},
         {
           href:
             process.env.PUBLIC_REPOSITORY_URL ??
@@ -61,8 +62,8 @@ const config: Config = {
         {
           title: 'Project',
           items: [
-            {label: 'Contribute', to: '/'},
-            {label: 'Canon', to: '/docs/canon/prime-canon'},
+            {label: 'Core Lore', to: '/docs/core-lore/astra-nox-leak-tartarus'},
+            {label: 'Contribute', to: '/contribute'},
           ],
         },
       ],
