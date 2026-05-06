@@ -386,6 +386,150 @@ html:has(.landing-terminal) body {
   font: 16px/1.6 "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
 }
 
+body:has(.theme-doc-markdown) {
+  --ifm-background-color: #080c11;
+  --ifm-navbar-background-color: #080c11;
+  --ifm-footer-background-color: #080c11;
+  --ifm-color-content: #c5d3de;
+  --ifm-color-content-secondary: rgba(197, 211, 222, 0.68);
+  --ifm-heading-color: #00e5ff;
+  --ifm-link-color: #00e5ff;
+  --ifm-menu-color: #c5d3de;
+  --ifm-menu-color-active: #00e5ff;
+  --ifm-toc-link-color: rgba(197, 211, 222, 0.68);
+  --ifm-font-family-base: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  background: #080c11;
+  color: #c5d3de;
+  letter-spacing: 0.5px;
+}
+
+body:has(.theme-doc-markdown)::before,
+body:has(.theme-doc-markdown)::after {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  content: "";
+}
+
+body:has(.theme-doc-markdown)::before {
+  opacity: 0.22;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode: soft-light;
+}
+
+body:has(.theme-doc-markdown)::after {
+  opacity: 0.08;
+  background-image:
+    radial-gradient(circle at 16% 26%, rgba(0, 229, 255, 0.42) 0 1px, transparent 1px),
+    radial-gradient(circle at 72% 62%, rgba(255, 170, 0, 0.34) 0 1px, transparent 1px);
+  background-size: 19px 29px, 31px 37px;
+  animation: terminal-noise 1.1s steps(2, end) infinite;
+}
+
+body:has(.theme-doc-markdown) .navbar,
+body:has(.theme-doc-markdown) .footer {
+  border-color: rgba(0, 229, 255, 0.28);
+  background: rgba(8, 12, 17, 0.94);
+  color: rgba(197, 211, 222, 0.78);
+  box-shadow: none;
+}
+
+body:has(.theme-doc-markdown) .navbar__title,
+body:has(.theme-doc-markdown) .navbar__link {
+  color: #c5d3de;
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+}
+
+body:has(.theme-doc-markdown) .navbar__link:hover,
+body:has(.theme-doc-markdown) .navbar__link--active {
+  color: #00e5ff;
+}
+
+body:has(.theme-doc-markdown) .main-wrapper {
+  background:
+    radial-gradient(circle at 52% 8%, rgba(0, 229, 255, 0.08), transparent 34rem),
+    linear-gradient(180deg, rgba(255, 68, 68, 0.035), transparent 28rem),
+    #080c11;
+}
+
+body:has(.theme-doc-markdown) .theme-doc-sidebar-container {
+  border-right: 1px solid rgba(0, 229, 255, 0.22);
+  background: rgba(0, 229, 255, 0.035);
+}
+
+body:has(.theme-doc-markdown) .menu__link {
+  border-radius: 0;
+  color: rgba(197, 211, 222, 0.78);
+}
+
+body:has(.theme-doc-markdown) .menu__link:hover,
+body:has(.theme-doc-markdown) .menu__link--active {
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+
+body:has(.theme-doc-markdown) .theme-doc-toc-desktop {
+  border-left: 1px solid rgba(0, 229, 255, 0.22);
+}
+
+body:has(.theme-doc-markdown) .breadcrumbs__link,
+body:has(.theme-doc-markdown) .theme-edit-this-page {
+  color: rgba(197, 211, 222, 0.7);
+}
+
+body:has(.theme-doc-markdown) .theme-doc-footer,
+body:has(.theme-doc-markdown) .pagination-nav {
+  border-color: rgba(0, 229, 255, 0.22);
+}
+
+body:has(.theme-doc-markdown) .pagination-nav__link {
+  border-color: rgba(0, 229, 255, 0.22);
+  border-radius: 0;
+  background: rgba(0, 229, 255, 0.035);
+}
+
+.theme-doc-markdown.markdown {
+  position: relative;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  background: rgba(0, 229, 255, 0.05);
+  padding: 1.2rem;
+  box-shadow:
+    inset 0 0 24px rgba(0, 229, 255, 0.04),
+    0 0 60px rgba(0, 0, 0, 0.55);
+}
+
+.theme-doc-markdown.markdown::before {
+  display: block;
+  margin: -0.1rem 0 1rem;
+  border-bottom: 1px solid rgba(0, 229, 255, 0.22);
+  padding-bottom: 0.65rem;
+  color: #00e5ff;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  content: "DEAD-SPACE NODE M-41 // FILE VIEWER // READ-ONLY BUFFER";
+}
+
+.theme-doc-markdown.markdown h1,
+.theme-doc-markdown.markdown h2,
+.theme-doc-markdown.markdown h3 {
+  color: #00e5ff;
+  letter-spacing: 0.5px;
+}
+
+.theme-doc-markdown.markdown blockquote {
+  border-left: 1px solid #ffaa00;
+  background: rgba(255, 170, 0, 0.05);
+  color: #c5d3de;
+}
+
 @keyframes flicker {
   0%,
   86%,

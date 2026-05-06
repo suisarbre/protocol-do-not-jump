@@ -44,29 +44,30 @@ export default function TerminalLanding(): JSX.Element {
   const [countdown, setCountdown] = useState(formatCountdown());
   const searchInputRef = useRef<HTMLInputElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
+  const bootSkippedRef = useRef(false);
+  const fullBootText = useMemo(() => bootLines.join('\n'), []);
 
   useEffect(() => {
     let cancelled = false;
-    const fullText = bootLines.join('\n');
     let index = 0;
-    const startId = window.setTimeout(typeNext, 500);
+    const startId = window.setTimeout(typeNext, 180);
 
     function typeNext() {
-      if (cancelled) return;
-      if (index >= fullText.length) {
+      if (cancelled || bootSkippedRef.current) return;
+      if (index >= fullBootText.length) {
         setBootComplete(true);
         return;
       }
-      index += 1;
-      setTypedText(fullText.slice(0, index));
-      window.setTimeout(typeNext, 30 + Math.random() * 20);
+      index += 3;
+      setTypedText(fullBootText.slice(0, index));
+      window.setTimeout(typeNext, 8 + Math.random() * 10);
     }
 
     return () => {
       cancelled = true;
       window.clearTimeout(startId);
     };
-  }, []);
+  }, [fullBootText]);
 
   useEffect(() => {
     fetch(indexUrl)
@@ -172,12 +173,24 @@ export default function TerminalLanding(): JSX.Element {
           content="Recovered archive terminal for Protocol Do Not Jump."
         />
       </Head>
-      <main className="landing-terminal">
+      <main
+        className="landing-terminal"
+        onClick={() => {
+          if (!bootComplete) {
+            bootSkippedRef.current = true;
+            setTypedText(fullBootText);
+            setBootComplete(true);
+          }
+        }}
+      >
         <section className="terminal-alert" aria-label="System warning">
           [WARNING] THIS NODE IS DECOMMISSIONED. UNAUTHORIZED ACCESS IS A CLASS-A GALACTIC FELONY.
         </section>
 
-        <section className="terminal-main" aria-label="Dead-space node terminal">
+        <section
+          className="terminal-main"
+          aria-label="Dead-space node terminal"
+        >
           <header className="terminal-header">
             <span>DEAD-SPACE NODE M-41</span>
             <span>RECOVERY CONSOLE // GUEST ACCESS</span>
@@ -190,7 +203,6 @@ export default function TerminalLanding(): JSX.Element {
 
           {bootComplete ? (
             <>
-              <PriorityLeak />
               <TerminalMenu items={menuItems} />
               <TerminalSearch
                 open={searchOpen}
@@ -203,6 +215,7 @@ export default function TerminalLanding(): JSX.Element {
                   setQuery('');
                 }}
               />
+              <PriorityLeak />
             </>
           ) : null}
         </section>
