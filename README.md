@@ -39,3 +39,6 @@ with `LOREWIKI_API_BASE_URL=https://your-vercel-project.vercel.app`.
 Repository: https://github.com/suisarbre/protocol-do-not-jump
 
 Deployment and WAF setup are documented in `docs/ops/deployment.md`.
+
+To avoid Vercel redeploying on every lore-only PR, configure the Vercel Ignored
+Build Step as documented there.

@@ -56,3 +56,22 @@ Action: block or challenge
 The WAF rule is only the perimeter guard. Strict action cooldowns are still
 enforced inside the serverless functions with Upstash Redis using GitHub user ID
 and a secondary IP hash.
+
+## Vercel Deploy Filtering
+
+In the Vercel project, set:
+
+```text
+Settings -> Git -> Ignored Build Step
+```
+
+to:
+
+```bash
+node scripts/vercel-ignore-build.mjs
+```
+
+The script skips Vercel redeploys when a commit only changes lore content under
+`docs/` or the generated lore index under `static/lore-index/`. Vercel still
+deploys changes to the app, API, server code, CI/scripts, package files, and
+project configuration.
