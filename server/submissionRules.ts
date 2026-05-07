@@ -25,7 +25,7 @@ export function evaluateSubmissionSafety(markdown: string, targetPath: string): 
     reasons.push('Submission contains content outside the Teen / PG-13 policy.');
   }
 
-  if (path.startsWith('docs/canon/')) {
+  if (path.split('/').length === 2) {
     reasons.push('Core canon paths are protected.');
   }
 

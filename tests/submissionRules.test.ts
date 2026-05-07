@@ -32,7 +32,7 @@ describe('submission safety', () => {
   });
 
   it('blocks protected canon paths', () => {
-    expect(() => evaluateSubmissionSafety(safeMarkdown, 'docs/canon/prime-canon.md')).toThrow(
+    expect(() => evaluateSubmissionSafety(safeMarkdown, 'docs/prime-canon.md')).toThrow(
       /Core canon/,
     );
   });

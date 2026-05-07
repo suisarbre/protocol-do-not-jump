@@ -7,7 +7,7 @@ describe('wiki paths', () => {
   });
 
   it('blocks protected canon edits', () => {
-    expect(() => assertEditableWikiPath('docs/canon/prime-canon.md')).toThrow(/Core canon/);
+    expect(() => assertEditableWikiPath('docs/prime-canon.md')).toThrow(/Core canon/);
   });
 
   it('blocks traversal outside docs', () => {
