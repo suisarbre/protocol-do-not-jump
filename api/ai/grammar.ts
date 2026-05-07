@@ -21,7 +21,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const input = schema.parse(await readJson(req));
     await consumeCooldown('quick', session, req);
 
-    const raw = await generateGeminiText(SYSTEM_PROMPT, input.text);
+    const safeText = `<user_draft>\n${input.text}\n</user_draft>`;
+    const raw = await generateGeminiText(SYSTEM_PROMPT, safeText);
 
     if (!raw) {
       sendJson(res, 200, {

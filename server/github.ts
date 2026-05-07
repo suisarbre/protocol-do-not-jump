@@ -281,6 +281,19 @@ function encodeURIComponentPath(filePath: string): string {
   return filePath.split('/').map(encodeURIComponent).join('/');
 }
 
+export async function deleteRepositoryFile(input: {
+  path: string;
+  branch: string;
+  message: string;
+  sha: string;
+}): Promise<void> {
+  await repoFetch('DELETE', `/contents/${encodeURIComponentPath(input.path)}`, {
+    message: input.message,
+    sha: input.sha,
+    branch: input.branch,
+  });
+}
+
 export function githubAuthorizeUrl(state: string): string {
   const params = new URLSearchParams({
     client_id: requiredEnv('GITHUB_CLIENT_ID'),

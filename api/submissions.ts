@@ -106,6 +106,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   });
 }
 
+function escapeMd(s: string): string {
+  return s.replace(/[|`[\]]/g, (c) => `\\${c}`);
+}
+
 function buildPullRequestBody(input: {
   operation: string;
   targetPath: string;
@@ -118,12 +122,12 @@ function buildPullRequestBody(input: {
     '## AI Lore Submission',
     '',
     `- Operation: ${input.operation}`,
-    `- Target path: \`${input.targetPath}\``,
-    `- Contributor: @${input.author}`,
+    `- Target path: \`${escapeMd(input.targetPath)}\``,
+    `- Contributor: @${escapeMd(input.author)}`,
     `- Risk level: ${input.riskLevel}`,
     `- Auto-merge eligible: ${input.safe ? 'yes' : 'no'}`,
     '',
     '## Review Notes',
-    input.reasons.length ? input.reasons.map((reason) => `- ${reason}`).join('\n') : '- No blocking issues detected.',
+    input.reasons.length ? input.reasons.map((reason) => `- ${escapeMd(reason)}`).join('\n') : '- No blocking issues detected.',
   ].join('\n');
 }

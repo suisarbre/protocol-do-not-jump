@@ -29,6 +29,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const input = schema.parse(await readJson(req));
     await consumeCooldown('quick', session, req);
 
+    const safeText = `<user_draft>\n${input.text}\n</user_draft>`;
     const matches: LoreCitation[] = await findLoreMatches(input.text, input.limit);
     const highScoreMatches = matches.filter((m) => m.score > 0.35);
 
@@ -40,7 +41,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       const excerptBlock = highScoreMatches
         .map((m) => `--- ${m.title} ---\n${m.excerpt}`)
         .join('\n\n');
-      const prompt = `DRAFT:\n${input.text}\n\nEXISTING ENTRIES:\n${excerptBlock}`;
+      const prompt = `EXISTING ENTRIES:\n${excerptBlock}\n\n${safeText}`;
       const raw = await generateGeminiText(SYSTEM_PROMPT, prompt);
 
       if (raw) {

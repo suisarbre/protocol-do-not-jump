@@ -2,8 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
-import TerminalBrowser from '../components/TerminalBrowser';
-import TerminalContributor from '../components/TerminalContributor';
+import TerminalFileExplorer from '../components/TerminalFileExplorer';
 
 type LoreEntry = {
   path: string;
@@ -36,9 +35,7 @@ export default function TerminalLanding(): JSX.Element {
   const indexUrl = useBaseUrl('/lore-index/index.json');
   const [typedText, setTypedText] = useState('');
   const [bootComplete, setBootComplete] = useState(false);
-  const [browserOpen, setBrowserOpen] = useState(false);
-  const [contributorOpen, setContributorOpen] = useState(false);
-  const [initialFilePath, setInitialFilePath] = useState<string | undefined>(undefined);
+  const [explorerOpen, setExplorerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<LoreEntry[]>([]);
@@ -90,7 +87,7 @@ export default function TerminalLanding(): JSX.Element {
 
   useEffect(() => {
     if (window.location.hash === '#contribute') {
-      setContributorOpen(true);
+      setExplorerOpen(true);
     }
   }, []);
 
@@ -125,8 +122,8 @@ export default function TerminalLanding(): JSX.Element {
     {
       key: '1',
       label: '[BROWSE ARCHIVE]',
-      description: 'Navigate the recovered document archive.',
-      run: () => { setInitialFilePath(undefined); setBrowserOpen(true); },
+      description: 'Navigate, edit, and contribute to the recovered document archive.',
+      run: () => setExplorerOpen(true),
     },
     {
       key: '2',
@@ -141,18 +138,12 @@ export default function TerminalLanding(): JSX.Element {
       run: () => {
         if (!searchableEntries.length) return;
         const pick = searchableEntries[Math.floor(Math.random() * searchableEntries.length)]!;
-        setInitialFilePath(pick.path);
-        setBrowserOpen(true);
+        const slug = pick.slug.startsWith('/') ? pick.slug : `/${pick.slug}`;
+        window.location.href = `/docs${slug}`;
       },
     },
     {
       key: '4',
-      label: '[CONTRIBUTE LORE FRAGMENT]',
-      description: 'Write and publish a new lore fragment to the archive.',
-      run: () => setContributorOpen(true),
-    },
-    {
-      key: '5',
       label: '[VIEW SYSTEM STATUS]',
       description: 'Monitor node integrity and active protocols.',
       run: () => statusRef.current?.scrollIntoView({behavior: 'smooth', block: 'end'}),
@@ -217,13 +208,8 @@ export default function TerminalLanding(): JSX.Element {
           </pre>
 
           {bootComplete ? (
-            browserOpen ? (
-              <TerminalBrowser
-                initialFilePath={initialFilePath}
-                onExit={() => { setBrowserOpen(false); setInitialFilePath(undefined); }}
-              />
-            ) : contributorOpen ? (
-              <TerminalContributor onExit={() => setContributorOpen(false)} />
+            explorerOpen ? (
+              <TerminalFileExplorer onExit={() => setExplorerOpen(false)} />
             ) : (
               <>
                 <TerminalMenu items={menuItems} />
@@ -237,14 +223,16 @@ export default function TerminalLanding(): JSX.Element {
                   onOpenFile={(filePath) => {
                     setSearchOpen(false);
                     setQuery('');
-                    setInitialFilePath(filePath);
-                    setBrowserOpen(true);
+                    setExplorerOpen(true);
                   }}
                 />
                 <PriorityLeak onOpen={() => {
                   if (priorityLeakPath) {
-                    setInitialFilePath(priorityLeakPath);
-                    setBrowserOpen(true);
+                    const entry = entries.find((e) => e.path === priorityLeakPath);
+                    if (entry) {
+                      const slug = entry.slug.startsWith('/') ? entry.slug : `/${entry.slug}`;
+                      window.location.href = `/docs${slug}`;
+                    }
                   }
                 }} />
               </>

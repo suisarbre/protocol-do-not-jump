@@ -134,7 +134,7 @@ function userPrompt(
 ): string {
   return [
     'Draft to format:',
-    text,
+    `<user_draft>\n${text}\n</user_draft>`,
     '',
     'Required front matter:',
     JSON.stringify(frontMatter, null, 2),

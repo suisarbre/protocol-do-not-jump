@@ -1266,6 +1266,300 @@ body:has(.contributorDesk) .navbar__title::before {
   content: "> ";
 }
 
+/* ── Terminal File Explorer ───────────────────────────────── */
+
+.terminal-explorer-divider {
+  border: 0;
+  border-top: 1px solid rgba(255, 140, 0, 0.28);
+  margin: 0.6rem 0;
+}
+
+.terminal-admin-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  border: 1px solid var(--terminal-orange);
+  color: var(--terminal-orange);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 1px 5px;
+  vertical-align: middle;
+}
+
+.terminal-ls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.18rem 0;
+  border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.terminal-ls-row:last-child {
+  border-bottom: 0;
+}
+
+.terminal-ls-label {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.terminal-folder-label {
+  color: var(--terminal-cyan);
+}
+
+.terminal-file-ops {
+  display: inline-flex;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.terminal-file-ops-btn {
+  border: 1px solid rgba(197, 211, 222, 0.38);
+  background: transparent;
+  color: var(--terminal-primary);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
+}
+
+.terminal-file-ops-btn:hover:not(:disabled) {
+  border-color: var(--terminal-orange);
+  color: var(--terminal-orange);
+  background: rgba(255, 140, 0, 0.08);
+}
+
+.terminal-file-ops-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.terminal-file-ops-btn--danger {
+  border-color: rgba(255, 68, 68, 0.45);
+  color: var(--terminal-red);
+}
+
+.terminal-file-ops-btn--danger:hover:not(:disabled) {
+  border-color: var(--terminal-red);
+  color: var(--terminal-red);
+  background: rgba(255, 68, 68, 0.1);
+}
+
+.terminal-file-ops-btn--primary {
+  border-color: rgba(0, 229, 255, 0.45);
+  color: var(--terminal-cyan);
+}
+
+.terminal-file-ops-btn--primary:hover:not(:disabled) {
+  border-color: var(--terminal-cyan);
+  color: var(--terminal-cyan);
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.terminal-explorer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 140, 0, 0.28);
+}
+
+.terminal-explorer-toolbar-left {
+  display: inline-flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.terminal-delete-panel {
+  margin-top: 0.75rem;
+  border-left: 3px solid var(--terminal-red);
+  background: rgba(255, 68, 68, 0.06);
+  padding: 0.85rem 1rem;
+}
+
+.terminal-delete-warning {
+  color: var(--terminal-red);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.terminal-delete-target {
+  color: var(--terminal-orange);
+  margin: 0.3rem 0;
+  overflow-wrap: anywhere;
+}
+
+.terminal-delete-note {
+  color: rgba(197, 211, 222, 0.62);
+  font-size: 13px;
+  margin-bottom: 0.75rem;
+}
+
+.terminal-delete-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.terminal-folder-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.terminal-folder-input {
+  flex: 1 1 180px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--terminal-orange);
+  border-radius: 0;
+  color: var(--terminal-orange);
+  font: inherit;
+  letter-spacing: inherit;
+  padding: 0.25rem 0;
+}
+
+.terminal-folder-input::placeholder {
+  color: rgba(197, 211, 222, 0.3);
+}
+
+.terminal-folder-input:focus {
+  outline: none;
+  border-bottom-color: var(--terminal-cyan);
+  color: var(--terminal-cyan);
+}
+
+.terminal-cat-content {
+  margin-top: 0.75rem;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: rgba(0, 229, 255, 0.03);
+  padding: 0.85rem 1rem;
+  color: var(--terminal-primary);
+}
+
+.terminal-cat-content h1,
+.terminal-cat-content h2,
+.terminal-cat-content h3 {
+  color: var(--terminal-cyan);
+}
+
+.terminal-cat-content blockquote {
+  border-left: 2px solid var(--terminal-orange);
+  background: rgba(255, 170, 0, 0.05);
+  margin-left: 0;
+  padding-left: 0.75rem;
+  color: var(--terminal-primary);
+}
+
+.terminal-cat-content a {
+  color: var(--terminal-cyan);
+}
+
+.terminal-cat-content table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.terminal-cat-content th,
+.terminal-cat-content td {
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+}
+
+.terminal-cat-content th {
+  color: var(--terminal-cyan);
+}
+
+.terminal-write-area {
+  width: 100%;
+  min-height: 14rem;
+  resize: vertical;
+  background: rgba(8, 12, 17, 0.72);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: 0;
+  color: var(--terminal-primary);
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1.6;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.terminal-write-area:focus {
+  outline: none;
+  border-color: rgba(0, 229, 255, 0.45);
+}
+
+.terminal-write-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(255, 140, 0, 0.28);
+}
+
+.terminal-inline-panel {
+  margin-top: 0.65rem;
+  border-left: 2px solid rgba(0, 229, 255, 0.35);
+  padding: 0.6rem 0.85rem;
+  font-size: 13px;
+}
+
+.terminal-inline-panel-title {
+  color: var(--terminal-cyan);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.terminal-error-line {
+  color: var(--terminal-red);
+  margin-top: 0.5rem;
+  font-size: 13px;
+}
+
+.terminal-done-panel {
+  margin-top: 0.75rem;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  background: rgba(0, 229, 255, 0.04);
+  padding: 0.85rem 1rem;
+}
+
+.terminal-done-label {
+  color: var(--terminal-cyan);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.terminal-done-url {
+  color: var(--terminal-orange);
+  overflow-wrap: anywhere;
+  margin-bottom: 0.6rem;
+}
+
+.terminal-done-url a {
+  color: var(--terminal-orange);
+  text-decoration: underline;
+}
+
 body:has(.theme-doc-markdown) .navbar__link:hover,
 body:has(.theme-doc-markdown) .navbar__link--active,
 body:has(.contributorDesk) .navbar__link:hover,

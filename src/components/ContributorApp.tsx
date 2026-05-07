@@ -65,6 +65,7 @@ export default function ContributorApp(): JSX.Element {
       apiRequest<SessionResponse>(apiBaseUrl, '/api/session', {method: 'GET'}).catch(() => ({
         authenticated: false,
         user: null,
+        isAdmin: false,
         cooldowns: null,
       })),
       apiRequest<WikiTreeResponse>(apiBaseUrl, '/api/wiki/tree', {method: 'GET'}).catch(() => ({
@@ -152,6 +153,7 @@ export default function ContributorApp(): JSX.Element {
       apiRequest<SessionResponse>(apiBaseUrl, '/api/session', {method: 'GET'}).catch(() => ({
         authenticated: false,
         user: null,
+        isAdmin: false,
         cooldowns: null,
       })),
       apiRequest<WikiTreeResponse>(apiBaseUrl, '/api/wiki/tree', {method: 'GET'}).catch(() => ({
@@ -289,7 +291,7 @@ export default function ContributorApp(): JSX.Element {
     setBusy('logout');
     try {
       await apiRequest(apiBaseUrl, '/api/auth/logout', {method: 'POST'});
-      setSession({authenticated: false, user: null, cooldowns: null});
+      setSession({authenticated: false, user: null, isAdmin: false, cooldowns: null});
       setCooldowns(null);
     } finally {
       setBusy(null);

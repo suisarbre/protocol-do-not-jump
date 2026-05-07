@@ -8,6 +8,7 @@ export type SessionResponse = {
     name?: string;
     avatarUrl?: string;
   };
+  isAdmin: boolean;
   cooldowns: CooldownMap | null;
 };
 
