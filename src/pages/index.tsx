@@ -3,6 +3,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import {useHistory} from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import TerminalBrowser from '../components/TerminalBrowser';
 
 type LoreEntry = {
   path: string;
@@ -38,6 +39,7 @@ export default function TerminalLanding(): JSX.Element {
   const indexUrl = useBaseUrl('/lore-index/index.json');
   const [typedText, setTypedText] = useState('');
   const [bootComplete, setBootComplete] = useState(false);
+  const [browserOpen, setBrowserOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<LoreEntry[]>([]);
@@ -109,10 +111,9 @@ export default function TerminalLanding(): JSX.Element {
   const menuItems: MenuAction[] = [
     {
       key: '1',
-      label: '[ACCESS CORE CANON FILES]',
-      description: 'View recovered primary source documents.',
-      href: coreLorePath,
-      run: () => history.push(coreLorePath),
+      label: '[BROWSE ARCHIVE]',
+      description: 'Navigate the recovered document archive.',
+      run: () => setBrowserOpen(true),
     },
     {
       key: '2',
@@ -192,8 +193,8 @@ export default function TerminalLanding(): JSX.Element {
           aria-label="Dead-space node terminal"
         >
           <header className="terminal-header">
-            <span>DEAD-SPACE NODE M-41</span>
-            <span>RECOVERY CONSOLE // GUEST ACCESS</span>
+            <span>┌─ DEAD-SPACE NODE M-41</span>
+            <span>RECOVERY CONSOLE // GUEST ACCESS ─┐</span>
           </header>
 
           <pre className="boot-sequence" aria-live="polite">
@@ -202,21 +203,25 @@ export default function TerminalLanding(): JSX.Element {
           </pre>
 
           {bootComplete ? (
-            <>
-              <TerminalMenu items={menuItems} />
-              <TerminalSearch
-                open={searchOpen}
-                query={query}
-                setQuery={setQuery}
-                results={searchResults}
-                inputRef={searchInputRef}
-                close={() => {
-                  setSearchOpen(false);
-                  setQuery('');
-                }}
-              />
-              <PriorityLeak />
-            </>
+            browserOpen ? (
+              <TerminalBrowser onExit={() => setBrowserOpen(false)} />
+            ) : (
+              <>
+                <TerminalMenu items={menuItems} />
+                <TerminalSearch
+                  open={searchOpen}
+                  query={query}
+                  setQuery={setQuery}
+                  results={searchResults}
+                  inputRef={searchInputRef}
+                  close={() => {
+                    setSearchOpen(false);
+                    setQuery('');
+                  }}
+                />
+                <PriorityLeak />
+              </>
+            )
           ) : null}
         </section>
 
