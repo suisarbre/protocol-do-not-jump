@@ -1,5 +1,6 @@
 import {z} from 'zod';
 import {config} from '../server/env';
+import {isAdmin} from '../server/admin';
 import {HttpError} from '../server/errors';
 import {
   addPullRequestLabels,
@@ -13,7 +14,7 @@ import {method, readJson, sendJson, withApi} from '../server/http';
 import {parseWikiMarkdown, withFrontMatter} from '../server/markdown';
 import {assertFreshEdit, evaluateSubmissionSafety} from '../server/submissionRules';
 import {consumeCooldown, getCooldowns} from '../server/rateLimit';
-import {pathForNewLore, assertEditableWikiPath} from '../server/paths';
+import {pathForNewLore, assertEditableWikiPathForAdmin} from '../server/paths';
 import {requireSession} from '../server/session';
 import type {ApiRequest, ApiResponse} from '../server/types';
 
@@ -32,7 +33,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     await consumeCooldown('submit', session, req);
 
     const parsed = parseWikiMarkdown(input.markdown);
-    const targetPath = assertEditableWikiPath(input.targetPath ?? pathForNewLore(parsed.frontMatter.title));
+    const targetPath = assertEditableWikiPathForAdmin(
+      input.targetPath ?? pathForNewLore(parsed.frontMatter.title),
+      isAdmin(session),
+    );
     const existingFile = await getRepositoryContent(targetPath);
 
     if (input.operation === 'edit') {

@@ -11,12 +11,12 @@ for (const file of files) {
     assertWikiMarkdownPath(file);
     const parsed = parseWikiMarkdown(fs.readFileSync(file, 'utf8'));
 
-    if (parsed.frontMatter.canonLevel === 'core' && file !== PROTECTED_CANON_PATH) {
-      errors.push(`${file}: only ${PROTECTED_CANON_PATH} may be core canon in the MVP.`);
+    if (parsed.frontMatter.canonLevel === 'core' && !file.startsWith('docs/canon/')) {
+      errors.push(`${file}: canonLevel "core" is only allowed inside docs/canon/.`);
     }
 
-    if (file.startsWith('docs/canon/') && file !== PROTECTED_CANON_PATH) {
-      errors.push(`${file}: docs/canon is protected for the MVP.`);
+    if (file.startsWith('docs/canon/') && parsed.frontMatter.canonLevel !== 'core') {
+      errors.push(`${file}: docs/canon/ files must have canonLevel "core".`);
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);

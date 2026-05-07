@@ -1,23 +1,24 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
+import {isAdmin} from '../../server/admin';
 import {HttpError} from '../../server/errors';
 import {env} from '../../server/env';
 import {getRepositoryContent} from '../../server/github';
 import {getQueryValue, method, sendJson, withApi} from '../../server/http';
-import {assertEditableWikiPath} from '../../server/paths';
+import {assertEditableWikiPathForAdmin} from '../../server/paths';
 import {requireSession} from '../../server/session';
 import type {ApiRequest, ApiResponse} from '../../server/types';
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   await withApi(req, res, async () => {
     method(req, 'GET');
-    requireSession(req);
+    const session = requireSession(req);
     const requestedPath = getQueryValue(req, 'path');
     if (!requestedPath) {
       throw new HttpError(400, 'missing_path', 'Missing wiki file path.');
     }
 
-    const wikiPath = assertEditableWikiPath(requestedPath);
+    const wikiPath = assertEditableWikiPathForAdmin(requestedPath, isAdmin(session));
     const file = await readWikiFile(wikiPath);
     if (!file) {
       throw new HttpError(404, 'file_not_found', 'Wiki file was not found.');

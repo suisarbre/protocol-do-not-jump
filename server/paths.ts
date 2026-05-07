@@ -39,6 +39,10 @@ export function assertEditableWikiPath(input: string): string {
   return normalized;
 }
 
+export function assertEditableWikiPathForAdmin(input: string, admin: boolean): string {
+  return admin ? assertWikiMarkdownPath(input) : assertEditableWikiPath(input);
+}
+
 export function assertEditableDirectoryPath(input: string): string {
   const normalized = normalizeWikiPath(input).replace(/\/+$/, '');
   if (!normalized.startsWith('docs/')) {

@@ -3,7 +3,7 @@ import {isAdmin} from '../../server/admin';
 import {createBranch, deleteRepositoryFile, getBaseBranchSha, openPullRequest} from '../../server/github';
 import {HttpError} from '../../server/errors';
 import {method, readJson, sendJson, withApi} from '../../server/http';
-import {assertEditableWikiPath} from '../../server/paths';
+import {assertWikiMarkdownPath} from '../../server/paths';
 import {consumeCooldown, getCooldowns} from '../../server/rateLimit';
 import {requireSession} from '../../server/session';
 import type {ApiRequest, ApiResponse} from '../../server/types';
@@ -24,7 +24,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const input = schema.parse(await readJson(req));
     await consumeCooldown('submit', session, req);
 
-    const filePath = assertEditableWikiPath(input.path);
+    const filePath = assertWikiMarkdownPath(input.path);
     const fileName = filePath.split('/').pop() ?? filePath;
     const branch = `lorewiki/${session.user.login}/del-file-${Date.now()}`;
 

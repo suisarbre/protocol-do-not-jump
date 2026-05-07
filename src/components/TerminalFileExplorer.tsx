@@ -365,7 +365,7 @@ export default function TerminalFileExplorer({onExit}: {onExit: () => void}): JS
                   >
                     [VIEW]
                   </button>
-                  {isAuth && file.editable && (
+                  {(isAuth && file.editable || admin) && (
                     <button
                       type="button"
                       className="terminal-file-ops-btn"
@@ -375,7 +375,7 @@ export default function TerminalFileExplorer({onExit}: {onExit: () => void}): JS
                       [EDIT]
                     </button>
                   )}
-                  {admin && file.editable && (
+                  {admin && (
                     <button
                       type="button"
                       className="terminal-file-ops-btn terminal-file-ops-btn--danger"

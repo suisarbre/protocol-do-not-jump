@@ -42,7 +42,6 @@ export async function getWikiTree(): Promise<WikiDirectoryNode[]> {
     if (!file.path.startsWith('docs/') || !/\.(md|mdx)$/.test(file.path)) continue;
     const directoryPath = file.path.split('/').slice(0, -1).join('/');
     if (directoryPath === 'docs') continue;
-    if (directoryPath === 'docs/canon') continue;
 
     const directory = ensureDirectory(directories, directoryPath);
     const filename = file.path.split('/').pop() ?? '';
