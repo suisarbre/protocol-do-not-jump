@@ -18,7 +18,7 @@ const config: Config = {
   },
   trailingSlash: false,
   customFields: {
-    apiBaseUrl: process.env.LOREWIKI_API_BASE_URL ?? '',
+    apiBaseUrl: process.env.LOREWIKI_API_BASE_URL ?? 'https://protocol-do-not-jump.vercel.app',
     repositoryUrl:
       process.env.PUBLIC_REPOSITORY_URL ??
       'https://github.com/suisarbre/protocol-do-not-jump',
