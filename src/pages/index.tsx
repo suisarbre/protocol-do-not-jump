@@ -139,8 +139,8 @@ export default function TerminalLanding(): JSX.Element {
       run: () => {
         if (!searchableEntries.length) return;
         const pick = searchableEntries[Math.floor(Math.random() * searchableEntries.length)]!;
-        const slug = pick.slug.startsWith('/') ? pick.slug : `/${pick.slug}`;
-        window.location.href = `/docs${slug}`;
+        setExplorerInitialPath(pick.path);
+        setExplorerOpen(true);
       },
     },
     {
