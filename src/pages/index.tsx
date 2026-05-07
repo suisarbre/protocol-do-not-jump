@@ -3,6 +3,7 @@ import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import TerminalBrowser from '../components/TerminalBrowser';
+import TerminalContributor from '../components/TerminalContributor';
 
 type LoreEntry = {
   path: string;
@@ -23,8 +24,6 @@ type MenuAction = {
 };
 
 const coreLorePath = '/docs/core-lore/astra-nox-leak-tartarus';
-const repositoryUrl = 'https://github.com/suisarbre/protocol-do-not-jump';
-const contributingUrl = `${repositoryUrl}/blob/main/CONTRIBUTING.md`;
 const bootLines = [
   '> Establishing connection to dead-space node M-41... [OK]',
   '> Decrypting salvaged data fragments... [PARTIAL]',
@@ -38,6 +37,7 @@ export default function TerminalLanding(): JSX.Element {
   const [typedText, setTypedText] = useState('');
   const [bootComplete, setBootComplete] = useState(false);
   const [browserOpen, setBrowserOpen] = useState(false);
+  const [contributorOpen, setContributorOpen] = useState(false);
   const [initialFilePath, setInitialFilePath] = useState<string | undefined>(undefined);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -87,6 +87,12 @@ export default function TerminalLanding(): JSX.Element {
       window.setTimeout(() => searchInputRef.current?.focus(), 80);
     }
   }, [searchOpen]);
+
+  useEffect(() => {
+    if (window.location.hash === '#contribute') {
+      setContributorOpen(true);
+    }
+  }, []);
 
   const searchableEntries = useMemo(
     () => entries.filter((entry) => !entry.path.endsWith('/formats.md') && !entry.path.endsWith('/rules.md')),
@@ -141,12 +147,9 @@ export default function TerminalLanding(): JSX.Element {
     },
     {
       key: '4',
-      label: '[UPLOAD NEW DATA FRAGMENT]',
-      description: 'Contribute to the reconstruction effort.',
-      href: contributingUrl,
-      run: () => {
-        window.location.href = contributingUrl;
-      },
+      label: '[CONTRIBUTE LORE FRAGMENT]',
+      description: 'Write and publish a new lore fragment to the archive.',
+      run: () => setContributorOpen(true),
     },
     {
       key: '5',
@@ -219,6 +222,8 @@ export default function TerminalLanding(): JSX.Element {
                 initialFilePath={initialFilePath}
                 onExit={() => { setBrowserOpen(false); setInitialFilePath(undefined); }}
               />
+            ) : contributorOpen ? (
+              <TerminalContributor onExit={() => setContributorOpen(false)} />
             ) : (
               <>
                 <TerminalMenu items={menuItems} />

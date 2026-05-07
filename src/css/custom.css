@@ -1882,3 +1882,220 @@ body:has(.contributorDesk) .footer {
   color: var(--terminal-primary);
   text-shadow: 0 0 6px rgba(197, 211, 222, 0.4);
 }
+
+/* ── Terminal Contributor ─────────────────────────────────── */
+
+.terminal-contributor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.terminal-contributor-hint {
+  color: rgba(197, 211, 222, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.terminal-editor-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 13px;
+  color: rgba(197, 211, 222, 0.65);
+  padding-bottom: 0.25rem;
+}
+
+.terminal-editor {
+  border-left: 3px solid var(--terminal-orange);
+  padding-left: 0.75rem;
+}
+
+.terminal-editor-textarea {
+  width: 100%;
+  min-height: 220px;
+  background: rgba(8, 12, 17, 0.85);
+  color: var(--terminal-primary);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+  border: 1px solid rgba(255, 170, 0, 0.3);
+  border-radius: 0;
+  padding: 0.75rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.terminal-editor-textarea:focus {
+  border-color: var(--terminal-orange);
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.18);
+}
+
+.terminal-editor-textarea::placeholder {
+  color: rgba(197, 211, 222, 0.25);
+}
+
+.terminal-editor-textarea:disabled {
+  opacity: 0.5;
+}
+
+.terminal-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.terminal-action-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  color: var(--terminal-orange);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.terminal-action-btn:hover:not(:disabled) {
+  background: rgba(255, 170, 0, 0.15);
+  border-color: var(--terminal-orange);
+}
+
+.terminal-action-btn--primary {
+  border-color: var(--terminal-orange);
+  color: var(--terminal-orange);
+  font-weight: 700;
+}
+
+.terminal-action-btn--primary:hover:not(:disabled) {
+  background: rgba(255, 170, 0, 0.22);
+}
+
+.terminal-action-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.terminal-panel {
+  border-left: 2px solid rgba(255, 170, 0, 0.35);
+  padding-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.terminal-panel-header {
+  color: var(--terminal-orange);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+  margin-bottom: 0.2rem;
+}
+
+.terminal-panel-summary {
+  font-size: 12px;
+  color: rgba(197, 211, 222, 0.7);
+  margin: 0;
+}
+
+.terminal-finding-item {
+  font-size: 12px;
+  color: rgba(197, 211, 222, 0.75);
+  padding: 0.2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.terminal-finding-item--similar {
+  opacity: 0.65;
+}
+
+.terminal-finding-type {
+  color: rgba(197, 211, 222, 0.5);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.terminal-finding-suggestion {
+  color: rgba(255, 170, 0, 0.75);
+}
+
+.terminal-finding-score {
+  opacity: 0.55;
+  font-size: 11px;
+}
+
+.terminal-risk-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0;
+}
+
+.terminal-risk-badge--low {
+  color: #69ff9f;
+  border: 1px solid rgba(105, 255, 159, 0.45);
+}
+
+.terminal-risk-badge--medium {
+  color: var(--terminal-orange);
+  border: 1px solid rgba(255, 170, 0, 0.45);
+}
+
+.terminal-risk-badge--high {
+  color: var(--terminal-red);
+  border: 1px solid rgba(255, 68, 68, 0.45);
+}
+
+.terminal-review-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 12px;
+  color: rgba(197, 211, 222, 0.75);
+  padding-bottom: 0.5rem;
+}
+
+.terminal-review-preview {
+  background: rgba(8, 12, 17, 0.75);
+  border-left: 2px solid rgba(255, 170, 0, 0.3);
+  padding: 0.75rem;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--terminal-primary);
+  white-space: pre-wrap;
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 170, 0, 0.3) transparent;
+}
+
+.terminal-pr-result {
+  border-left: 3px solid #69ff9f;
+  padding-left: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 13px;
+}
+
+.terminal-pr-result a {
+  color: #69ff9f;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.terminal-pr-result a:hover {
+  text-decoration: underline;
+}
+
