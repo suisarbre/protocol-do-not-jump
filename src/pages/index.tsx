@@ -93,6 +93,14 @@ export default function TerminalLanding(): JSX.Element {
     [entries],
   );
 
+  const priorityLeakPath = useMemo(() => {
+    const match = entries.find((e) => {
+      const slug = e.slug.startsWith('/') ? e.slug : `/${e.slug}`;
+      return `/docs${slug}` === coreLorePath;
+    });
+    return match?.path;
+  }, [entries]);
+
   const searchResults = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return searchableEntries.slice(0, 5);
@@ -228,7 +236,12 @@ export default function TerminalLanding(): JSX.Element {
                     setBrowserOpen(true);
                   }}
                 />
-                <PriorityLeak />
+                <PriorityLeak onOpen={() => {
+                  if (priorityLeakPath) {
+                    setInitialFilePath(priorityLeakPath);
+                    setBrowserOpen(true);
+                  }
+                }} />
               </>
             )
           ) : null}
@@ -328,9 +341,9 @@ function TerminalSearch({
   );
 }
 
-function PriorityLeak(): JSX.Element {
+function PriorityLeak({onOpen}: {onOpen: () => void}): JSX.Element {
   return (
-    <Link className="priority-leak" to={coreLorePath}>
+    <button type="button" className="priority-leak" onClick={onOpen}>
       <span>================================================</span>
       <strong>:: TODAY&apos;S PRIORITY LEAK ::</strong>
       <b>Project &apos;Tartarus&apos; - Chief Researcher&apos;s Log</b>
@@ -339,7 +352,7 @@ function PriorityLeak(): JSX.Element {
       </em>
       <i>Status: [CORRUPTED, RECOVERING...]</i>
       <span>================================================</span>
-    </Link>
+    </button>
   );
 }
 
@@ -358,7 +371,7 @@ function SystemStatusBar({
         <span>FRAGMENTS: {fragmentCount}</span>
       </div>
       <div>
-        <Link to={coreLorePath}>PROTOCOL-DO-NOT-JUMP: ACTIVE</Link>
+        <span>PROTOCOL-DO-NOT-JUMP: ACTIVE</span>
         <span>SILENCE-COUNTDOWN: {countdown}</span>
       </div>
     </footer>
