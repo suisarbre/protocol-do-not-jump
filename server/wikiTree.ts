@@ -121,8 +121,8 @@ export function defaultDirectoryRules(directoryPath: string): string {
 }
 
 async function listWikiMarkdownFiles(): Promise<Array<{path: string; sha?: string}>> {
-  const owner = env('GITHUB_REPO_OWNER');
-  const repo = env('GITHUB_REPO_NAME');
+  const owner = env('GITHUB_REPO_OWNER') || 'suisarbre';
+  const repo = env('GITHUB_REPO_NAME') || 'protocol-do-not-jump';
   if (owner && repo) {
     const branch = env('GITHUB_BASE_BRANCH', 'main');
     const tree = env('GITHUB_APP_ID')
@@ -161,8 +161,8 @@ async function titleForFile(filePath: string): Promise<string> {
 }
 
 async function readWikiFile(filePath: string): Promise<{path: string; sha?: string; content: string} | null> {
-  const owner = env('GITHUB_REPO_OWNER');
-  const repo = env('GITHUB_REPO_NAME');
+  const owner = env('GITHUB_REPO_OWNER') || 'suisarbre';
+  const repo = env('GITHUB_REPO_NAME') || 'protocol-do-not-jump';
   if (owner && repo) {
     if (env('GITHUB_APP_ID')) {
       return getRepositoryContent(filePath);
