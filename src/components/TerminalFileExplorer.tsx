@@ -53,7 +53,13 @@ function stripFrontMatter(src: string): string {
   return src.replace(/^---[\s\S]*?---\n?/, '');
 }
 
-export default function TerminalFileExplorer({onExit}: {onExit: () => void}): JSX.Element {
+export default function TerminalFileExplorer({
+  onExit,
+  initialFilePath,
+}: {
+  onExit: () => void;
+  initialFilePath?: string;
+}): JSX.Element {
   const apiBaseUrl = useApiBaseUrl();
   const [step, setStep] = useState<Step>({mode: 'init'});
   const [session, setSession] = useState<SessionResponse | null>(null);
@@ -70,16 +76,23 @@ export default function TerminalFileExplorer({onExit}: {onExit: () => void}): JS
   const [busy, setBusy] = useState(false);
   const fileCache = useRef(new Map<string, string>());
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const initialFilePathRef = useRef(initialFilePath);
 
   useEffect(() => {
+    const initPath = initialFilePathRef.current;
     Promise.all([
       apiRequest<SessionResponse>(apiBaseUrl, '/api/session').catch(() => null),
       apiRequest<WikiTreeResponse>(apiBaseUrl, '/api/wiki/tree').catch(() => ({directories: []})),
     ]).then(([sess, tree]) => {
       setSession(sess);
       setDirs(tree.directories);
-      setStep({mode: 'ls', cwdPath: 'docs'});
+      if (initPath) {
+        loadForView(initPath);
+      } else {
+        setStep({mode: 'ls', cwdPath: 'docs'});
+      }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiBaseUrl]);
 
   const loadForEdit = useCallback(async (filePath: string) => {

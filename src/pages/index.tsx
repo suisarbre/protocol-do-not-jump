@@ -36,6 +36,7 @@ export default function TerminalLanding(): JSX.Element {
   const [typedText, setTypedText] = useState('');
   const [bootComplete, setBootComplete] = useState(false);
   const [explorerOpen, setExplorerOpen] = useState(false);
+  const [explorerInitialPath, setExplorerInitialPath] = useState<string | undefined>(undefined);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<LoreEntry[]>([]);
@@ -209,7 +210,10 @@ export default function TerminalLanding(): JSX.Element {
 
           {bootComplete ? (
             explorerOpen ? (
-              <TerminalFileExplorer onExit={() => setExplorerOpen(false)} />
+              <TerminalFileExplorer
+                onExit={() => { setExplorerOpen(false); setExplorerInitialPath(undefined); }}
+                initialFilePath={explorerInitialPath}
+              />
             ) : (
               <>
                 <TerminalMenu items={menuItems} />
@@ -223,17 +227,15 @@ export default function TerminalLanding(): JSX.Element {
                   onOpenFile={(filePath) => {
                     setSearchOpen(false);
                     setQuery('');
+                    setExplorerInitialPath(filePath);
                     setExplorerOpen(true);
                   }}
                 />
                 <PriorityLeak onOpen={() => {
                   if (priorityLeakPath) {
-                    const entry = entries.find((e) => e.path === priorityLeakPath);
-                    if (entry) {
-                      const slug = entry.slug.startsWith('/') ? entry.slug : `/${entry.slug}`;
-                      window.location.href = `/docs${slug}`;
-                    }
+                    setExplorerInitialPath(priorityLeakPath);
                   }
+                  setExplorerOpen(true);
                 }} />
               </>
             )

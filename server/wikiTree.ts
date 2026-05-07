@@ -1,7 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {env} from './env';
-import {getRepositoryContent, listRepositoryTree} from './github';
+import {
+  getRepositoryContent,
+  getRepositoryContentPublic,
+  listRepositoryTree,
+  listRepositoryTreePublic,
+} from './github';
 import {parseWikiMarkdown, readFrontMatter} from './markdown';
 import {
   DIRECTORY_RULE_FILENAMES,
@@ -116,8 +121,13 @@ export function defaultDirectoryRules(directoryPath: string): string {
 }
 
 async function listWikiMarkdownFiles(): Promise<Array<{path: string; sha?: string}>> {
-  if (env('GITHUB_REPO_OWNER') && env('GITHUB_REPO_NAME') && env('GITHUB_APP_ID')) {
-    const tree = await listRepositoryTree();
+  const owner = env('GITHUB_REPO_OWNER');
+  const repo = env('GITHUB_REPO_NAME');
+  if (owner && repo) {
+    const branch = env('GITHUB_BASE_BRANCH', 'main');
+    const tree = env('GITHUB_APP_ID')
+      ? await listRepositoryTree(branch)
+      : await listRepositoryTreePublic(owner, repo, branch);
     return tree
       .filter((entry) => entry.type === 'blob' && /\.(md|mdx)$/.test(entry.path))
       .map((entry) => ({path: entry.path, sha: entry.sha}));
@@ -151,8 +161,14 @@ async function titleForFile(filePath: string): Promise<string> {
 }
 
 async function readWikiFile(filePath: string): Promise<{path: string; sha?: string; content: string} | null> {
-  if (env('GITHUB_REPO_OWNER') && env('GITHUB_REPO_NAME') && env('GITHUB_APP_ID')) {
-    return getRepositoryContent(filePath);
+  const owner = env('GITHUB_REPO_OWNER');
+  const repo = env('GITHUB_REPO_NAME');
+  if (owner && repo) {
+    if (env('GITHUB_APP_ID')) {
+      return getRepositoryContent(filePath);
+    }
+    const branch = env('GITHUB_BASE_BRANCH', 'main');
+    return getRepositoryContentPublic(owner, repo, filePath, branch);
   }
   if (!fs.existsSync(filePath)) return null;
   return {path: filePath, content: fs.readFileSync(filePath, 'utf8')};

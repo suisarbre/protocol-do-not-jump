@@ -130,6 +130,39 @@ export async function listRepositoryTree(ref = config.githubBaseBranch()) {
   return tree.tree;
 }
 
+export async function listRepositoryTreePublic(
+  owner: string,
+  repo: string,
+  ref = 'main',
+): Promise<GithubTreeResponse['tree']> {
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`,
+    {
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'ai-lore-wiki',
+      },
+    },
+  );
+  if (!response.ok) return [];
+  const tree = (await response.json()) as GithubTreeResponse;
+  return tree.truncated ? [] : tree.tree;
+}
+
+export async function getRepositoryContentPublic(
+  owner: string,
+  repo: string,
+  filePath: string,
+  ref = 'main',
+): Promise<{path: string; sha?: string; content: string} | null> {
+  const response = await fetch(
+    `https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${filePath}`,
+  );
+  if (!response.ok) return null;
+  return {path: filePath, content: await response.text()};
+}
+
 export async function createBranch(branch: string, sha: string): Promise<void> {
   await repoFetch('POST', '/git/refs', {
     ref: `refs/heads/${branch}`,
