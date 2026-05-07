@@ -5,8 +5,9 @@ documentType: "Cosmic-Decree"
 canonLevel: "Core"
 authorGithub: "system-admin"
 loreTags: ["Pulse-Accord", "Harmonia", "Great-War", "Alethic-Engine", "Universal-Law"]
-discovered: "Cycle 91,205.50"
-revised: "Cycle 91,205.55"
+created: "2026-05-06"
+updated: "2026-05-06"
+sourcePr: "seed"
 narrativeLayer: "Primary"
 sourceReliability: "Absolute"
 ---
