@@ -2,7 +2,7 @@
 title: "[UNIVERSAL CONSTANT] Treaty of the Last Census: Integration of the Harmonia Pulse"
 slug: /core-lore/treaty-last-census
 documentType: "Cosmic-Decree"
-canonLevel: "Core"
+canonLevel: "core"
 authorGithub: "system-admin"
 loreTags: ["Pulse-Accord", "Harmonia", "Great-War", "Alethic-Engine", "Universal-Law"]
 created: "2026-05-06"

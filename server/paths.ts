@@ -1,7 +1,7 @@
 import path from 'node:path';
 import {HttpError} from './errors';
 
-export const PROTECTED_CANON_PATH = 'docs/canon/prime-canon.md';
+export const PROTECTED_CANON_PATH = 'docs/prime-canon.md';
 export const DIRECTORY_RULE_FILENAMES = ['formats.md', 'rules.md'] as const;
 
 export function normalizeWikiPath(input: string): string {
@@ -33,7 +33,8 @@ export function assertWikiMarkdownPath(input: string): string {
 
 export function assertEditableWikiPath(input: string): string {
   const normalized = assertWikiMarkdownPath(input);
-  if (normalized === PROTECTED_CANON_PATH || normalized.startsWith('docs/canon/')) {
+  const parts = normalized.split('/');
+  if (parts.length === 2) {
     throw new HttpError(403, 'protected_canon', 'Core canon documents cannot be edited here.');
   }
   return normalized;
@@ -48,7 +49,7 @@ export function assertEditableDirectoryPath(input: string): string {
   if (!normalized.startsWith('docs/')) {
     throw new HttpError(400, 'invalid_path', 'Lore directories must live under docs/.');
   }
-  if (normalized === 'docs' || normalized.startsWith('docs/canon')) {
+  if (normalized === 'docs') {
     throw new HttpError(403, 'protected_canon', 'Core canon directories cannot be edited here.');
   }
   if (/\.(md|mdx)$/.test(normalized)) {

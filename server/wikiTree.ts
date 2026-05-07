@@ -41,7 +41,6 @@ export async function getWikiTree(): Promise<WikiDirectoryNode[]> {
   for (const file of files) {
     if (!file.path.startsWith('docs/') || !/\.(md|mdx)$/.test(file.path)) continue;
     const directoryPath = file.path.split('/').slice(0, -1).join('/');
-    if (directoryPath === 'docs') continue;
 
     const directory = ensureDirectory(directories, directoryPath);
     const filename = file.path.split('/').pop() ?? '';
@@ -58,7 +57,7 @@ export async function getWikiTree(): Promise<WikiDirectoryNode[]> {
       title,
       sha: file.sha,
       kind: isRules ? 'rules' : 'document',
-      editable: !file.path.startsWith('docs/canon/'),
+      editable: directoryPath !== 'docs',
     });
   }
 

@@ -11,12 +11,15 @@ for (const file of files) {
     assertWikiMarkdownPath(file);
     const parsed = parseWikiMarkdown(fs.readFileSync(file, 'utf8'));
 
-    if (parsed.frontMatter.canonLevel === 'core' && !file.startsWith('docs/canon/')) {
-      errors.push(`${file}: canonLevel "core" is only allowed inside docs/canon/.`);
+    const isAtDocsRoot = file.split('/').length === 2 && file.startsWith('docs/');
+    const canonLevel = (parsed.frontMatter.canonLevel as string | undefined)?.toLowerCase();
+
+    if (canonLevel === 'core' && !isAtDocsRoot) {
+      errors.push(`${file}: canonLevel "core" is only allowed at the docs/ root level.`);
     }
 
-    if (file.startsWith('docs/canon/') && parsed.frontMatter.canonLevel !== 'core') {
-      errors.push(`${file}: docs/canon/ files must have canonLevel "core".`);
+    if (isAtDocsRoot && canonLevel !== 'core') {
+      errors.push(`${file}: files at docs/ root must have canonLevel "core".`);
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -24,7 +27,7 @@ for (const file of files) {
   }
 }
 
-if (!files.includes(PROTECTED_CANON_PATH)) {
+if (!files.some((f) => f === PROTECTED_CANON_PATH)) {
   errors.push(`${PROTECTED_CANON_PATH}: protected canon seed is required.`);
 }
 
