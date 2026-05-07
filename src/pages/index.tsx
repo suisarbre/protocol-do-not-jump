@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import Head from '@docusaurus/Head';
 import Link from '@docusaurus/Link';
-import {useHistory} from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import TerminalBrowser from '../components/TerminalBrowser';
 
@@ -35,11 +34,11 @@ const bootLines = [
 ];
 
 export default function TerminalLanding(): JSX.Element {
-  const history = useHistory();
   const indexUrl = useBaseUrl('/lore-index/index.json');
   const [typedText, setTypedText] = useState('');
   const [bootComplete, setBootComplete] = useState(false);
   const [browserOpen, setBrowserOpen] = useState(false);
+  const [initialFilePath, setInitialFilePath] = useState<string | undefined>(undefined);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [entries, setEntries] = useState<LoreEntry[]>([]);
@@ -113,7 +112,7 @@ export default function TerminalLanding(): JSX.Element {
       key: '1',
       label: '[BROWSE ARCHIVE]',
       description: 'Navigate the recovered document archive.',
-      run: () => setBrowserOpen(true),
+      run: () => { setInitialFilePath(undefined); setBrowserOpen(true); },
     },
     {
       key: '2',
@@ -125,8 +124,12 @@ export default function TerminalLanding(): JSX.Element {
       key: '3',
       label: '[VIEW RANDOM DECRYPTED LOG]',
       description: 'Access a random fragment.',
-      href: '/random',
-      run: () => openRandomFragment(searchableEntries, history),
+      run: () => {
+        if (!searchableEntries.length) return;
+        const pick = searchableEntries[Math.floor(Math.random() * searchableEntries.length)]!;
+        setInitialFilePath(pick.path);
+        setBrowserOpen(true);
+      },
     },
     {
       key: '4',
@@ -163,7 +166,7 @@ export default function TerminalLanding(): JSX.Element {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [menuItems, searchableEntries, history]);
+  }, [menuItems]);
 
   return (
     <>
@@ -204,7 +207,10 @@ export default function TerminalLanding(): JSX.Element {
 
           {bootComplete ? (
             browserOpen ? (
-              <TerminalBrowser onExit={() => setBrowserOpen(false)} />
+              <TerminalBrowser
+                initialFilePath={initialFilePath}
+                onExit={() => { setBrowserOpen(false); setInitialFilePath(undefined); }}
+              />
             ) : (
               <>
                 <TerminalMenu items={menuItems} />
@@ -214,9 +220,12 @@ export default function TerminalLanding(): JSX.Element {
                   setQuery={setQuery}
                   results={searchResults}
                   inputRef={searchInputRef}
-                  close={() => {
+                  close={() => { setSearchOpen(false); setQuery(''); }}
+                  onOpenFile={(filePath) => {
                     setSearchOpen(false);
                     setQuery('');
+                    setInitialFilePath(filePath);
+                    setBrowserOpen(true);
                   }}
                 />
                 <PriorityLeak />
@@ -271,6 +280,7 @@ function TerminalSearch({
   results,
   inputRef,
   close,
+  onOpenFile,
 }: {
   open: boolean;
   query: string;
@@ -278,6 +288,7 @@ function TerminalSearch({
   results: LoreEntry[];
   inputRef: React.RefObject<HTMLInputElement>;
   close: () => void;
+  onOpenFile: (filePath: string) => void;
 }): JSX.Element | null {
   if (!open) return null;
 
@@ -296,10 +307,15 @@ function TerminalSearch({
       <div className="terminal-results">
         {results.length ? (
           results.map((entry) => (
-            <Link key={entry.path} to={routeForEntry(entry)}>
+            <button
+              key={entry.path}
+              type="button"
+              className="terminal-result-btn"
+              onClick={() => onOpenFile(entry.path)}
+            >
               <strong>{entry.title}</strong>
               <span>{entry.excerpt || entry.documentType}</span>
-            </Link>
+            </button>
           ))
         ) : (
           <span className="terminal-null">NO MATCHING FRAGMENTS LOCATED.</span>
@@ -367,22 +383,6 @@ function renderBootText(text: string): React.ReactNode[] {
     }
     return part;
   });
-}
-
-function openRandomFragment(entries: LoreEntry[], history: ReturnType<typeof useHistory>): void {
-  if (!entries.length) {
-    history.push(coreLorePath);
-    return;
-  }
-  const randomEntry = entries[Math.floor(Math.random() * entries.length)]!;
-  history.push(routeForEntry(randomEntry));
-}
-
-function routeForEntry(entry: LoreEntry): string {
-  if (entry.slug.startsWith('/')) {
-    return `/docs${entry.slug}`;
-  }
-  return `/docs/${entry.slug}`;
 }
 
 function formatCountdown(): string {

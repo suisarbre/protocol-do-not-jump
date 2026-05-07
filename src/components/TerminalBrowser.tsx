@@ -44,12 +44,13 @@ function stripFrontMatter(src: string): string {
   return src.replace(/^---[\s\S]*?---\n?/, '');
 }
 
-export default function TerminalBrowser({onExit}: {onExit?: () => void}): JSX.Element {
+export default function TerminalBrowser({onExit, initialFilePath}: {onExit?: () => void; initialFilePath?: string}): JSX.Element {
   const [blobs, setBlobs] = useState<string[]>([]);
   const [cwd, setCwd] = useState([DOCS_ROOT]);
   const [view, setView] = useState<View>({mode: 'loading'});
   const fileCache = useRef(new Map<string, string>());
   const containerRef = useRef<HTMLDivElement>(null);
+  const initialFilePathRef = useRef(initialFilePath);
 
   const cwdPath = cwd.join('/');
 
@@ -84,8 +85,11 @@ export default function TerminalBrowser({onExit}: {onExit?: () => void}): JSX.El
           .filter((e) => e.type === 'blob' && e.path.startsWith(`${DOCS_ROOT}/`))
           .map((e) => e.path);
         setBlobs(docBlobs);
+        const target = initialFilePathRef.current;
         const hash = window.location.hash.replace(/^#/, '');
-        if (hash.startsWith(`${DOCS_ROOT}/`)) {
+        if (target) {
+          catFile(target);
+        } else if (hash.startsWith(`${DOCS_ROOT}/`)) {
           catFile(hash);
         } else {
           setView({mode: 'ls'});

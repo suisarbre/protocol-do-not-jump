@@ -348,16 +348,35 @@ html:has(.landing-terminal) body {
   margin: 0.9rem 0;
 }
 
-.terminal-results a {
+.terminal-results a,
+.terminal-result-btn {
   display: grid;
   gap: 0.2rem;
   border-left: 1px solid rgba(0, 229, 255, 0.3);
   padding: 0.45rem 0.7rem;
 }
 
-.terminal-results a:hover {
-  background: rgba(0, 229, 255, 0.08);
-  color: var(--terminal-cyan);
+.terminal-result-btn {
+  width: 100%;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background: transparent;
+  color: var(--terminal-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+}
+
+.terminal-results a:hover,
+.terminal-result-btn:hover {
+  background: rgba(255, 140, 0, 0.1);
+  border-left-color: var(--terminal-orange);
+  color: var(--terminal-orange);
 }
 
 .terminal-results strong {
