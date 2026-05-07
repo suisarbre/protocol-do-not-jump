@@ -156,20 +156,12 @@ export default function TerminalLanding(): JSX.Element {
       if (event.key === 'Escape') {
         setSearchOpen(false);
         setQuery('');
-        return;
-      }
-
-      if (document.activeElement instanceof HTMLInputElement) return;
-      const item = menuItems.find((candidate) => candidate.key === event.key);
-      if (item) {
-        event.preventDefault();
-        item.run();
       }
     }
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [menuItems]);
+  }, []);
 
   return (
     <>
