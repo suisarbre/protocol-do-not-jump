@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "ignoreCommand": "[ -n \"$VERCEL_GIT_PREVIOUS_SHA\" ] && ! git diff --name-only $VERCEL_GIT_PREVIOUS_SHA HEAD | grep -qvE '^docs/'",
   "headers": [
     {
       "source": "/api/(.*)",
