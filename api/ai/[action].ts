@@ -5,6 +5,8 @@ import {generateGeminiText} from '../../server/gemini';
 import {findLoreMatches} from '../../server/loreIndex';
 import {getQueryValue, method, readJson, sendJson, withApi} from '../../server/http';
 import {requireSession} from '../../server/session';
+import {isAdmin} from '../../server/admin';
+import {HttpError} from '../../server/errors';
 import type {ApiRequest, ApiResponse, LoreCitation} from '../../server/types';
 
 const grammarSchema = z.object({
@@ -22,6 +24,7 @@ const processSchema = z.object({
   operation: z.enum(['new', 'edit']),
   targetPath: z.string().optional(),
   baseBlobSha: z.string().optional(),
+  skipAi: z.boolean().optional(),
 });
 
 const GRAMMAR_SYSTEM_PROMPT = `You are a grammar and style checker for a sci-fi wiki.
@@ -108,6 +111,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (action === 'process') {
       const input = processSchema.parse(await readJson(req));
+      if (input.skipAi && !isAdmin(session)) {
+        throw new HttpError(403, 'admin_only', 'Skipping AI revision requires admin privileges.');
+      }
       await consumeCooldown('quick', session, req);
       const result = await processDraft(input, session);
       sendJson(res, 200, {...result, cooldowns: await getCooldowns(session, req)});

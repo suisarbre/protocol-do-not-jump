@@ -172,7 +172,7 @@ export default function TerminalFileExplorer({
     }
   }, [apiBaseUrl, draft]);
 
-  const runProcess = useCallback(async (dirPath: string, filePath?: string, sha?: string) => {
+  const runProcess = useCallback(async (dirPath: string, filePath?: string, sha?: string, skipAi?: boolean) => {
     if (!draft.trim()) return;
     setActionError('');
     setStep({mode: 'processing', dirPath, filePath, sha});
@@ -185,6 +185,7 @@ export default function TerminalFileExplorer({
           operation: filePath ? 'edit' : 'new',
           targetPath: filePath,
           baseBlobSha: sha,
+          skipAi,
         }),
       });
       setStep({mode: 'review', result, dirPath, sha});
@@ -201,10 +202,8 @@ export default function TerminalFileExplorer({
       const submitResult = await apiRequest<SubmitResponse>(apiBaseUrl, '/api/submissions', {
         method: 'POST',
         body: JSON.stringify({
-          formattedMarkdown: result.formattedMarkdown,
-          title: result.title,
+          markdown: result.formattedMarkdown,
           targetPath: result.targetPath,
-          directoryRulesPath: result.directoryRulesPath,
           operation: sha ? 'edit' : 'new',
           baseBlobSha: sha,
         }),
@@ -552,6 +551,17 @@ export default function TerminalFileExplorer({
           >
             [PROCESS & PUBLISH]
           </button>
+          {admin && (
+            <button
+              type="button"
+              className="terminal-action-btn terminal-action-btn--primary"
+              title="Skip AI revision and submit your draft as-is"
+              onClick={() => runProcess(dirPath, filePath, sha, true)}
+              disabled={!draft.trim()}
+            >
+              [PUBLISH RAW (ADMIN)]
+            </button>
+          )}
         </div>
 
         {grammarError && <p className="terminal-fetch-error">[ERROR] {grammarError}</p>}
@@ -661,6 +671,7 @@ export default function TerminalFileExplorer({
   // ── review ────────────────────────────────────────────────────────────────
   if (step.mode === 'review') {
     const {result, dirPath, sha} = step;
+    const filePath = sha ? result.targetPath : undefined;
     return (
       <div className="terminal-explorer">
         <div className="terminal-panel-header">══ AI REVIEW ══</div>
@@ -679,7 +690,7 @@ export default function TerminalFileExplorer({
           <button type="button" className="terminal-action-btn terminal-action-btn--primary" onClick={() => runSubmit(result, sha)}>
             [CONFIRM SUBMIT]
           </button>
-          <button type="button" className="terminal-action-btn" onClick={() => setStep({mode: 'write', dirPath, sha})}>
+          <button type="button" className="terminal-action-btn" onClick={() => setStep({mode: 'write', dirPath, filePath, sha})}>
             [← REVISE DRAFT]
           </button>
         </div>

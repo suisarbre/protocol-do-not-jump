@@ -14,6 +14,7 @@ export type ProcessDraftInput = {
   operation: Operation;
   targetPath?: string;
   baseBlobSha?: string;
+  skipAi?: boolean;
 };
 
 export type ProcessDraftResult = {
@@ -49,12 +50,18 @@ export async function processDraft(
     sourcePr: 'pending',
   };
 
-  const aiMarkdown = await generateGeminiText(
-    systemPrompt(directoryRules.content),
-    userPrompt(moderated.text, loreFindings, frontMatter, directoryRules),
-  );
+  const aiMarkdown = input.skipAi
+    ? null
+    : await generateGeminiText(
+        systemPrompt(directoryRules.content),
+        userPrompt(moderated.text, loreFindings, frontMatter, directoryRules),
+      );
 
-  const body = aiMarkdown ? stripFrontMatter(aiMarkdown) : fallbackBody(moderated.text, loreFindings, directoryRules.content);
+  const body = aiMarkdown
+    ? stripFrontMatter(aiMarkdown)
+    : input.skipAi
+      ? moderated.text
+      : fallbackBody(moderated.text, loreFindings, directoryRules.content);
   const existingFrontMatter = readFrontMatter(aiMarkdown ?? '') as Partial<WikiFrontMatter>;
   const formattedMarkdown = writeWikiMarkdown(
     {
