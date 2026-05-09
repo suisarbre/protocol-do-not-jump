@@ -1,4 +1,4 @@
-import {createSign} from 'node:crypto';
+import {createSign, createPrivateKey} from 'node:crypto';
 import {Buffer} from 'node:buffer';
 import {config, env, requiredEnv} from './env';
 import {HttpError} from './errors';
@@ -298,7 +298,8 @@ function createGithubAppJwt(): string {
   const signer = createSign('RSA-SHA256');
   signer.update(unsigned);
   signer.end();
-  const signature = signer.sign(normalizePrivateKey(requiredEnv('GITHUB_APP_PRIVATE_KEY')), 'base64url');
+  const privateKey = createPrivateKey(normalizePrivateKey(requiredEnv('GITHUB_APP_PRIVATE_KEY')));
+  const signature = signer.sign(privateKey, 'base64url');
   return `${unsigned}.${signature}`;
 }
 
