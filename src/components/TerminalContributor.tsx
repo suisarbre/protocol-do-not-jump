@@ -141,10 +141,8 @@ export default function TerminalContributor({onExit}: {onExit: () => void}): JSX
       const result = await apiRequest<SubmitResponse>(apiBaseUrl, '/api/submissions', {
         method: 'POST',
         body: JSON.stringify({
-          formattedMarkdown: processResult.formattedMarkdown,
-          title: processResult.title,
+          markdown: processResult.formattedMarkdown,
           targetPath: processResult.targetPath,
-          directoryRulesPath: processResult.directoryRulesPath,
           operation: 'new',
         }),
       });
